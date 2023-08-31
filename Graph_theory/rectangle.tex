@@ -1,0 +1,32 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, calc}
+
+\begin{document}
+
+  \begin{tikzpicture}[line cap=round]
+        \def\r{80pt} %radius of circumscribed circle
+        \def\rn{90pt} %radius of "invincible" circle with edges numbered 
+        \pgfmathtruncatemacro\a{12} % number of polygon vertices
+                
+
+\foreach \i in {1, 2, ..., \a} {
+    \coordinate (p\i) at ({-\r*cos(\i*(360/\a) + (90-360/\a)},{\r*sin(\i*(360/\a) + (90-360/\a))});
+    \draw[fill=black] (p\i) circle (1pt); 
+              
+\node at (
+   {-\rn*cos(\i*(360/\a) + (90-360/\a)},
+   {+\rn*sin(\i*(360/\a) + (90-360/\a))}
+){\i};
+}
+
+%Polygon Edges
+\pgfmathtruncatemacro\b{\a-1} %used to iterate till \a-1
+\foreach \i in {1, 2, ..., \b} {
+    \pgfmathsetmacro{\j}{\i+1}
+    \draw[thick,black] (p\i) -- (p\j);
+}   
+\draw[thick,black] (p\a) -- (p1);
+            
+  \end{tikzpicture}
+\end{document}
